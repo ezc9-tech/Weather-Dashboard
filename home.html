@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Weather Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        /* Custom styles for a minimal look */
+        .weather-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .icon-small {
+            width: 32px;
+            height: 32px;
+        }
+    </style>
+    <script src="./weather.js"></script>
+</head>
+<body class="flex flex-col items-center min-h-screen p-4">
+
+    <!-- Navbar -->
+    <nav class="w-full max-w-4xl p-4 rounded-2xl mb-8 bg-gradient-to-r from-gray-800 to-gray-700 shadow-md">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center text-white">
+            <a href="#" class="text-2xl font-bold mb-2 sm:mb-0">Weather App</a>
+            <ul class="flex space-x-4">
+                <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">Home</a></li>
+                <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">Radar Map</a></li>
+                <li><a href="#" class="hover:text-blue-400 transition-colors duration-300">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div id="weather-app" class="weather-card max-w-4xl w-full p-8 rounded-2xl">
+        <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Weather Dashboard</h1>
+
+        <!-- Search Bar - Input and button are here for you to add functionality -->
+        <div class="mb-8 flex flex-col sm:flex-row gap-2">
+            <input type="text" id="city-input" placeholder="Enter city name..." class="flex-grow p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 transition-all duration-300">
+            <button id="search-button" class="p-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center">
+                Search
+            </button>
+        </div>
+
+        <!-- Weather Display Section - Hard-coded data for visual reference -->
+        <div id="weather-display" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Current Weather Card -->
+            <div class="col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-xl shadow-lg flex flex-col justify-between">
+                <div>
+                    <h2 id="city-text" class="text-4xl font-bold">New York</h2>
+                    <p id="date-text" class="text-lg">Monday, July 29, 2024</p>
+                </div>
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="flex flex-col items-start">
+                        <p class="text-6xl font-bold">25°C</p>
+                        <p class="text-xl mt-2">Sunny</p>
+                    </div>
+                    <!-- Placeholder icon - you can replace this with dynamic icons from an API -->
+                    <img class="w-24 h-24" src="https://placehold.co/96x96/FFFFFF/000000?text=☀️" alt="Weather Icon">
+                </div>
+            </div>
+
+            <!-- Detailed Stats Card -->
+            <div class="col-span-1 p-6 bg-white rounded-xl shadow-lg flex flex-col justify-between">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-4">Details</h3>
+                <div class="space-y-4 text-gray-700">
+                    <div class="flex items-center">
+                        <span class="mr-3 text-2xl">💧</span>
+                        <div>
+                            <p class="font-medium">Humidity</p>
+                            <p id="humidity-percentage" class="text-xl font-bold">60%</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-3 text-2xl">💨</span>
+                        <div>
+                            <p class="font-medium">Wind Speed</p>
+                            <p id="wind-speed" class="text-xl font-bold">15 km/h</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5-Day Forecast Section - Hard-coded data for visual reference -->
+        <div class="mt-8">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">5-Day Forecast</h3>
+            <div id="five-day-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
