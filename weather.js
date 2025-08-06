@@ -58,15 +58,18 @@ document.addEventListener('DOMContentLoaded', function(){
                 "Clear": "Clear Skies",
                 "Clouds": "Cloudy"
             };
-            console.log(tempData)
-            console.log(weatherType)
+            const iconCode = data.list[i].weather[0].icon
+            const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+            const day = new Date(data.list[i].dt_txt).toLocaleDateString('en-US', {
+                weekday: 'long',
+            })
             const dayElement = document.createElement("div")
-            dayElement.classList.add("p-4", "bg-white", "rounded-xl", "shadow-sm", "text-center", "transform", "transition-transform", "hover:scale-105")
+            dayElement.classList.add("p-4", "bg-gradient-to-br", "from-blue-500", "to-blue-700", "rounded-xl", "shadow-sm", "text-center", "transform", "transition-transform", "hover:scale-105")
             dayElement.innerHTML = `
-                    <p class="font-bold text-lg text-gray-800">Sat</p>
-                    <img class="icon-small mx-auto my-2" src="https://placehold.co/32x32/FFFFFF/000000?text=☁️" alt="Weather Icon">
-                    <p class="text-xl font-bold text-gray-900">${tempData}°F</p>
-                    <p class="text-sm text-gray-500">${weatherTypes[weatherType]}</p>
+                    <p class="font-bold text-lg text-white">${day}</p>
+                    <img class="icon-small mx-auto my-2" src=${iconUrl} alt="Weather Icon">
+                    <p class="text-xl font-bold text-white">${tempData}°F</p>
+                    <p class="text-sm text-white">${weatherTypes[weatherType]}</p>
                     `
             fiveDayContainer.appendChild(dayElement)
         }
