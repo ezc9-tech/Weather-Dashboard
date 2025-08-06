@@ -6,56 +6,53 @@ document.addEventListener('DOMContentLoaded', function(){
     const humidityPercentage = document.getElementById("humidity-percentage")
     const windSpeed = document.getElementById("wind-speed")
     const fiveDayContainer = document.getElementById("five-day-container")
+    const weatherDisplay = document.getElementById("weather-display")
+    const currentTempText = document.getElementById('current-temp')
+    const currentWeatherText = document.getElementById('current-weather')
 
     const api_key = ""
 
     searchButton.addEventListener('click', async function(){
         const dataFive = await getFiveDayWeatherData();
         const dataToday = await getTodayWeatherData();
+        if(dataToday) displayTodaysWeather(dataToday);
         if(dataFive) displayFiveDayForecast(dataFive);
     })
 
-    async function getFiveDayWeatherData(){
-        if (cityInput.value === ''){
-            alert("The text box is empty")
-            return
-        } else {
-            const city = cityInput.value.trim()
-            const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=imperial`
-            try {
-                const response = await fetch(query)
-                if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json()
-                return data
-            } catch (error) {
-                console.error("Could not fetch weather data:", error);
-                alert("Failed to get weather data. Please check the city name and try again.");
-            }
+    async function getTodayWeatherData(){
+        const city = cityInput.value.trim();
+        if (city === ''){
+            alert("The text box is empty");
+            return;
+        }
+        const query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}&units=imperial`;
+        try {
+            const response = await fetch(query);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error("Could not fetch current weather:", error);
+            alert("Failed to get current weather. Please check the city name and try again.");
         }
     }
 
-    async function getTodayWeatherData(){
-        if (cityInput.value === ''){
-            alert("The text box is empty")
-            return
-        } else {
-            const city = cityInput.value.trim()
-            const query = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}&units=imperial`
-            try {
-                const response = await fetch(query)
-                if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json()
-                return data
-            } catch (error) {
-                console.error("Could not fetch weather data:", error);
-                alert("Failed to get weather data. Please check the city name and try again.");
-            }
+    async function getFiveDayWeatherData(){
+        const city = cityInput.value.trim();
+        if (city === ''){
+            alert("The text box is empty");
+            return;
+        }
+        const query = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${api_key}&units=imperial`;
+        try {
+            const response = await fetch(query);
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error("Could not fetch forecast:", error);
+            alert("Failed to get forecast. Please check the city name and try again.");
         }
     }
+
 
 
     function displayFiveDayForecast(data){
@@ -98,7 +95,16 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     function displayTodaysWeather(data){
-
+        const todayDate = new Date().toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        const currentTemp = Math.round(data.main.temp)
+        const currentWeather = data.weather[0].main
+        const iconCode = data.weather[0].icon
+        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        cityText.textContent = cityInput.value
+        dateText.textContent = todayDate
+        currentTempText.textContent = `${currentTemp}°F`
+        currentWeatherText.textContent = currentWeather
+        
     }
 
 })
