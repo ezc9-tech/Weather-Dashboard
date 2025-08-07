@@ -44,7 +44,7 @@
     <div id="weather-app" class="weather-card max-w-4xl w-full p-8 rounded-2xl">
         <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Weather Dashboard</h1>
 
-        <!-- Search Bar - Input and button are here for you to add functionality -->
+        <!-- Search Bar -->
         <div class="mb-8 flex flex-col sm:flex-row gap-2">
             <input type="text" id="city-input" placeholder="Enter city name..." class="flex-grow p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500 transition-all duration-300">
             <button id="search-button" class="p-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center">
@@ -52,7 +52,7 @@
             </button>
         </div>
 
-        <!-- Weather Display Section - Hard-coded data for visual reference -->
+        <!-- Weather Display Section -->
         <div id="weather-display" class="grid grid-cols-1 md:grid-cols-3 gap-6 hidden">
 
             <!-- Current Weather Card -->
@@ -66,7 +66,6 @@
                         <p id="current-temp" class="text-6xl font-bold"></p>
                         <p id="current-weather" class="text-xl mt-2"></p>
                     </div>
-                    <!-- Placeholder icon - you can replace this with dynamic icons from an API -->
                     <img id="current-weather-icon" class="w-24 h-24" src="" alt="Weather Icon">
                 </div>
             </div>
@@ -93,7 +92,7 @@
             </div>
         </div>
 
-        <!-- 5-Day Forecast Section - Hard-coded data for visual reference -->
+        <!-- 5-Day Forecast Section-->
         <div id="five-day-forecast" class="mt-8 hidden">
             <h3 class="text-2xl font-bold text-gray-800 mb-4">5-Day Forecast</h3>
             <div id="five-day-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
