@@ -1,27 +1,29 @@
-document.addEventListener('DOMContentLoaded', function(){
-    const cityInput = document.getElementById("city-input")
-    const searchButton = document.getElementById("search-button")
-    const cityText = document.getElementById("city-text")
-    const dateText = document.getElementById("date-text")
-    const humidityPercentage = document.getElementById("humidity-percentage")
-    const windSpeed = document.getElementById("wind-speed")
-    const fiveDayContainer = document.getElementById("five-day-container")
-    const weatherDisplay = document.getElementById("weather-display")
-    const currentTempText = document.getElementById('current-temp')
-    const currentWeatherText = document.getElementById('current-weather')
+document.addEventListener('DOMContentLoaded', function () {
+    const cityInput = document.getElementById("city-input");
+    const searchButton = document.getElementById("search-button");
+    const cityText = document.getElementById("city-text");
+    const dateText = document.getElementById("date-text");
+    const humidityPercentage = document.getElementById("humidity-percentage");
+    const windSpeed = document.getElementById("wind-speed");
+    const fiveDayContainer = document.getElementById("five-day-container");
+    const weatherDisplay = document.getElementById("weather-display");
+    const currentTempText = document.getElementById("current-temp");
+    const currentWeatherText = document.getElementById("current-weather");
+    const fiveDayForecast = document.getElementById("five-day-forecast");
+    const currentWeatherIcon = document.getElementById("current-weather-icon");
 
-    const api_key = ""
+    const api_key = "";
 
-    searchButton.addEventListener('click', async function(){
+    searchButton.addEventListener('click', async function () {
         const dataFive = await getFiveDayWeatherData();
         const dataToday = await getTodayWeatherData();
-        if(dataToday) displayTodaysWeather(dataToday);
-        if(dataFive) displayFiveDayForecast(dataFive);
-    })
+        if (dataToday) displayTodaysWeather(dataToday);
+        if (dataFive) displayFiveDayForecast(dataFive);
+    });
 
-    async function getTodayWeatherData(){
+    async function getTodayWeatherData() {
         const city = cityInput.value.trim();
-        if (city === ''){
+        if (city === '') {
             alert("The text box is empty");
             return;
         }
@@ -36,9 +38,9 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
-    async function getFiveDayWeatherData(){
+    async function getFiveDayWeatherData() {
         const city = cityInput.value.trim();
-        if (city === ''){
+        if (city === '') {
             alert("The text box is empty");
             return;
         }
@@ -53,13 +55,16 @@ document.addEventListener('DOMContentLoaded', function(){
         }
     }
 
+    function displayFiveDayForecast(data) {
+        fiveDayForecast.classList.remove("hidden");
+        fiveDayContainer.innerHTML = "";
 
+        for (let i = 0; i < data.list.length; i += 8) {
+            const entry = data.list[i];
+            if (!entry || !entry.main || !entry.weather) continue;
 
-    function displayFiveDayForecast(data){
-        fiveDayContainer.innerHTML = ""
-        for(let i = 0; i < data.list.length; i+=8) {
-            const tempData = Math.round(data.list[i].main.temp)
-            const weatherType = data.list[i].weather[0].main
+            const tempData = Math.round(entry.main.temp);
+            const weatherType = entry.weather[0].main;
             const weatherTypes = {
                 "Thunderstorm": "Stormy",
                 "Drizzle": "Light Rain",
@@ -77,35 +82,49 @@ document.addEventListener('DOMContentLoaded', function(){
                 "Clear": "Clear Skies",
                 "Clouds": "Cloudy"
             };
-            const iconCode = data.list[i].weather[0].icon
+            const readableWeather = weatherTypes[weatherType] || weatherType;
+
+            const iconCode = entry.weather[0].icon;
             const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-            const day = new Date(data.list[i].dt_txt).toLocaleDateString('en-US', {
+            const day = new Date(entry.dt_txt).toLocaleDateString('en-US', {
                 weekday: 'long',
-            })
-            const dayElement = document.createElement("div")
-            dayElement.classList.add("p-4", "bg-gradient-to-br", "from-blue-500", "to-blue-700", "rounded-xl", "shadow-sm", "text-center", "transform", "transition-transform", "hover:scale-105")
+            });
+
+            const dayElement = document.createElement("div");
+            dayElement.classList.add(
+                "p-4", "bg-gradient-to-br", "from-blue-500", "to-blue-700",
+                "rounded-xl", "shadow-sm", "text-center", "transform",
+                "transition-transform", "hover:scale-105"
+            );
             dayElement.innerHTML = `
-                    <p class="font-bold text-lg text-white">${day}</p>
-                    <img class="icon-small mx-auto my-2" src=${iconUrl} alt="Weather Icon">
-                    <p class="text-xl font-bold text-white">${tempData}°F</p>
-                    <p class="text-sm text-white">${weatherTypes[weatherType]}</p>
-                    `
-            fiveDayContainer.appendChild(dayElement)
+                <p class="font-bold text-lg text-white">${day}</p>
+                <img class="icon-small mx-auto my-2" src="${iconUrl}" alt="Weather Icon">
+                <p class="text-xl font-bold text-white">${tempData}°F</p>
+                <p class="text-sm text-white">${readableWeather}</p>
+            `;
+            fiveDayContainer.appendChild(dayElement);
         }
     }
 
-    function displayTodaysWeather(data){
-        const todayDate = new Date().toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-        const currentTemp = Math.round(data.main.temp)
-        const currentWeather = data.weather[0].main
-        const iconCode = data.weather[0].icon
+    function displayTodaysWeather(data) {
+        weatherDisplay.classList.remove("hidden");
+
+        const todayDate = new Date().toLocaleString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+        const currentTemp = Math.round(data.main.temp);
+        const currentWeather = data.weather[0].main;
+        const iconCode = data.weather[0].icon;
         const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-        cityText.textContent = cityInput.value
-        dateText.textContent = todayDate
-        currentTempText.textContent = `${currentTemp}°F`
-        currentWeatherText.textContent = currentWeather
-        
+        const humidity = data.main.humidity;
+        const wind = data.wind.speed;
+
+        cityText.textContent = cityInput.value;
+        dateText.textContent = todayDate;
+        currentTempText.textContent = `${currentTemp}°F`;
+        currentWeatherText.textContent = currentWeather;
+        currentWeatherIcon.setAttribute('src', iconUrl);
+        humidityPercentage.textContent = `${humidity}%`;
+        windSpeed.textContent = `${wind} mph`;
     }
-
-})
-
+});

@@ -53,7 +53,7 @@
         </div>
 
         <!-- Weather Display Section - Hard-coded data for visual reference -->
-        <div id="weather-display" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div id="weather-display" class="grid grid-cols-1 md:grid-cols-3 gap-6 hidden">
 
             <!-- Current Weather Card -->
             <div class="col-span-1 md:col-span-2 p-6 bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-xl shadow-lg flex flex-col justify-between">
@@ -67,7 +67,7 @@
                         <p id="current-weather" class="text-xl mt-2"></p>
                     </div>
                     <!-- Placeholder icon - you can replace this with dynamic icons from an API -->
-                    <img class="w-24 h-24" src="https://placehold.co/96x96/FFFFFF/000000?text=☀️" alt="Weather Icon">
+                    <img id="current-weather-icon" class="w-24 h-24" src="" alt="Weather Icon">
                 </div>
             </div>
 
@@ -79,14 +79,14 @@
                         <span class="mr-3 text-2xl">💧</span>
                         <div>
                             <p class="font-medium">Humidity</p>
-                            <p id="humidity-percentage" class="text-xl font-bold">60%</p>
+                            <p id="humidity-percentage" class="text-xl font-bold"></p>
                         </div>
                     </div>
                     <div class="flex items-center">
                         <span class="mr-3 text-2xl">💨</span>
                         <div>
                             <p class="font-medium">Wind Speed</p>
-                            <p id="wind-speed" class="text-xl font-bold">15 km/h</p>
+                            <p id="wind-speed" class="text-xl font-bold"></p>
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
         </div>
 
         <!-- 5-Day Forecast Section - Hard-coded data for visual reference -->
-        <div class="mt-8">
+        <div id="five-day-forecast" class="mt-8 hidden">
             <h3 class="text-2xl font-bold text-gray-800 mb-4">5-Day Forecast</h3>
             <div id="five-day-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             </div>
